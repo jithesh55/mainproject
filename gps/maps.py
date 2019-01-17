@@ -4,7 +4,7 @@ from requests import get
 
 
 # Replace with your API key here!
-KEY = 'AIzaSyA3V5dYN3y2TPb4VhvpyL9NnW2k86wKGG0'
+KEY = 'XXXXXXXXXXXXXXXXXXXX'
 
 
 

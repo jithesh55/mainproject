@@ -4,7 +4,7 @@ from math import radians, sin, cos, acos
 import googlemaps 
 #from geopy.distance import great_circle
 # Requires API key 
-gmaps = googlemaps.Client(key='AIzaSyBr-9lcP_P7RNnzRTmJHg9tpNIVf8mUbqA') 
+gmaps = googlemaps.Client(key='XXXXXXXXXXXXXXXXXXX') 
   
 # approximate radius of earth in km
 R = 6373.0

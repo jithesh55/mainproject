@@ -3,7 +3,7 @@
 import googlemaps 
   
 # Requires API key 
-gmaps = googlemaps.Client(key='AIzaSyAdeQLzsHBCh2AzcrXv5noaYLWtuyJMbSw') 
+gmaps = googlemaps.Client(key='XXXXXXXXXXXXXXXXXXXX') 
   
 # Requires cities name 
 my_dist = gmaps.distance_matrix('Delhi','Mumbai')['rows'][0]['elements'][0] 

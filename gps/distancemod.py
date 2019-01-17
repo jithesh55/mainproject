@@ -4,7 +4,7 @@ from math import sin, cos, sqrt, atan2, radians
 import googlemaps 
   
 # Requires API key 
-gmaps = googlemaps.Client(key='AIzaSyA3V5dYN3y2TPb4VhvpyL9NnW2k86wKGG0') 
+gmaps = googlemaps.Client(key='XXXXXXXXXXXXXXXXXXXXXx') 
   
 # approximate radius of earth in km
 R = 6373.0
