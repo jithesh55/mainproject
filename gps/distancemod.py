@@ -8,8 +8,8 @@ gmaps = googlemaps.Client(key='AIzaSyA3V5dYN3y2TPb4VhvpyL9NnW2k86wKGG0')
   
 # approximate radius of earth in km
 R = 6373.0
-latv =52.2296756
-lonv = 21.0122287
+latv =10.0575077
+lonv = 76.61581430000001
 geolocator = Nominatim(user_agent="hi")
 def find_distance(lat1,lat2,lon1,lon2):
 	dlon = lon2 - lon1
@@ -17,6 +17,7 @@ def find_distance(lat1,lat2,lon1,lon2):
 	a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
 	c = 2 * atan2(sqrt(a), sqrt(1 - a))
 	distance = R * c
+	print distance
 	return distance
 	#print("Result:", distance)
 	#print("Should be:", 278.546, "km")
