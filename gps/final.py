@@ -1,16 +1,12 @@
 import MySQLdb
 from geopy.geocoders import Nominatim
+import math
 from math import radians, sin, cos, acos
 import googlemaps 
-#from geopy.distance import great_circle
-# Requires API key 
-gmaps = googlemaps.Client(key='XXXXXXXXXXXXXXXXXXX') 
-  
-# approximate radius of earth in km
-R = 6373.0
-latv =10.060701
-lonv = 76.633096
-geolocator = Nominatim(user_agent="jithesh")
+gmaps = googlemaps.Client(key='XXXXXXXXXXXXXXXXXXXXXXX') 
+latv =10.038832
+lonv = 76.613547
+geolocator = Nominatim(user_agent="specify_your_app_name_here")
 
 def calculate_initial_compass_bearing(lata,lona,latb,lonb):
     startx,starty,endx,endy=lata,lona,latb,lonb
@@ -30,24 +26,27 @@ def find_distance(reversef,reverset,lata,lona,latd,lond):
 	#print(distance)
 	#distance=100
 	distance=distance/1.0
-	if(distance==0):
-		print("hi")
-		slat=radians(lata)
-		slon=radians(lona)
-		elat=radians(latd)
-		elon=radians(lond)
-		distance=6371.01 * acos(sin(slat)*sin(elat) + cos(slat)*cos(elat)*cos(slon - elon))
-		distance=distance*1000
+	return distance
+	
+def actual_distance(lata,lona,latd,lond):
+	#print("hi")
+	slat=radians(lata)
+	slon=radians(lona)
+	elat=radians(latd)
+	elon=radians(lond)
+	distance=6371.01 * acos(sin(slat)*sin(elat) + cos(slat)*cos(elat)*cos(slon - elon))
+	distance=distance*1000
+	return distance
 	#print('distanxce')
 	#print (distance)
-	return distance
+	
 	
 	
 def find_place(lat,lon):
-	#geolocator = Nominatim(user_agent="specify_your_app_name_here")
-	temp='"'+str(lat)+','+str(lon)+'"'
+	temp=str(lat)+','+str(lon)
 	print(temp)
 	location = geolocator.reverse(temp)
+
 	return location.address
 	
 	
@@ -59,7 +58,7 @@ i=1
 cur = db.cursor()
  
 # Select data from table using SQL query.
-while (True):
+while (i==1):
 	cur.execute("SELECT * FROM location WHERE active=1")
  	i=2
     
@@ -93,15 +92,18 @@ while (True):
     		print distancetest
     		if(distancetest<=distancead):
     			if(distancead>=distancevd):
-   				#print "lattitudeambulance:",row[1],"  logitudeambulance:",row[2]
+   				
     				distanceva=find_distance(reversev,reversea,latv,lonv,lata,lona)
     				print("in path")
-    				#print("Distance between them:", distance,"km")
-    				if(distanceva<100):
+    				distanceva=actual_distance(latv,lonv,lata,lona)
+    				distancead=actual_distance(lata,lona,latd,lond)
+    				distancevd=actual_distance(latv,lonv,latd,lond)
+    				if((distanceva<100)and(distancevd<distancead)):
     					print("Alert nearby 100m")
-    					bear=calculate_initial_compass_bearing(latav,lonv,lata,lona)
+    					
+    					angle=calculate_initial_compass_bearing(latv,lonv,lata,lona)
 					print("Angle:")
-					print bear
+					print angle
 					if(angle<20):
 						print("Ambulance approaching from North direction");
 					elif(angle<70):
@@ -121,11 +123,13 @@ while (True):
 					elif(angle<=360):
 						print("Ambulance approaching from North direction"); 
 
-    				elif(distanceva<250):
+    				elif((distanceva<250)and(distancevd<distancead)):
+    					
     					print("Alert nearby 250m")
-    					bear=calculate_initial_compass_bearing(latav,lonv,lata,lona)
+    					
+    					angle=calculate_initial_compass_bearing(latv,lonv,lata,lona)
 					print("Angle:")
-					print bear
+					print angle
 					if(angle<20):
 						print("Ambulance approaching from North direction");
 					elif(angle<70):
@@ -144,11 +148,13 @@ while (True):
 						print("Ambulance approaching from North-West direction"); 
 					elif(angle<=360):
 						print("Ambulance approaching from North direction"); 
-    				elif(distanceva<500):
+    				elif((distanceva<500)and(distancevd<distancead)):
+    					
     					print("Alert nearby 500m")
-    					bear=calculate_initial_compass_bearing(latav,lonv,lata,lona)
+    					
+    					angle=calculate_initial_compass_bearing(latv,lonv,lata,lona)
 					print("Angle:")
-					print bear
+					print angle
 					if(angle<20):
 						print("Ambulance approaching from North direction");
 					elif(angle<70):
@@ -167,11 +173,13 @@ while (True):
 						print("Ambulance approaching from North-West direction"); 
 					elif(angle<=360):
 						print("Ambulance approaching from North direction"); 
-    				elif(distanceva<750):
+    				elif((distanceva<750)and(distancevd<distancead)):
+    					
     					print("Alert nearby 750m")
-    					bear=calculate_initial_compass_bearing(latav,lonv,lata,lona)
+    					
+    					angle=calculate_initial_compass_bearing(latv,lonv,lata,lona)
 					print("Angle:")
-					print bear
+					print angle
 					if(angle<20):
 						print("Ambulance approaching from North direction");
 					elif(angle<70):
@@ -190,11 +198,12 @@ while (True):
 						print("Ambulance approaching from North-West direction"); 
 					elif(angle<=360):
 						print("Ambulance approaching from North direction"); 
-    				elif(distanceva<1000):
-    					print("Alert nearby 1km")
-    					bear=calculate_initial_compass_bearing(latav,lonv,lata,lona)
+    				elif((distanceva<1000)and(distancevd<distancead)):
+    					print("Alert nearby 1 km")
+    					
+    					angle=calculate_initial_compass_bearing(latv,lonv,lata,lona)
 					print("Angle:")
-					print bear
+					print angle
 					if(angle<20):
 						print("Ambulance approaching from North direction");
 					elif(angle<70):
